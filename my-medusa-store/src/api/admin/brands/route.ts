@@ -16,7 +16,7 @@ import {
   ) => {
     const { result } = await createBrandWorkflow(req.scope)
       .run({
-        input: req.validatedBody,
+        input: req.body,
       })
   
     res.json({ brand: result })

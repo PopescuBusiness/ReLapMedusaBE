@@ -38,6 +38,7 @@ import {
   export const createBrandWorkflow = createWorkflow(
     "create-brand",
     (input: CreateBrandWorkflowInput) => {
+      console.log(input);
       const brand = createBrandStep(input)
   
       return new WorkflowResponse(brand)
