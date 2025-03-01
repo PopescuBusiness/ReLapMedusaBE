@@ -240,7 +240,7 @@ To set the `start` command of your Medusa application in server mode:
 5. Enter the following in the input and click the check mark button:
 
 ```bash npm2yarn
-cd .medusa/server && npm run predeploy && npm run start
+cd .medusa/server && npm install && npm run predeploy && npm run start
 ```
 
 ### Deploy Changes
@@ -346,7 +346,7 @@ To set the `start` command of your Medusa application in worker mode:
 5. Enter the following in the input and click the check mark button:
 
 ```bash npm2yarn
-cd .medusa/server && npm run start
+cd .medusa/server && npm install && npm run start
 ```
 
 ### Deploy Changes
@@ -398,6 +398,16 @@ To check issues or errors in your deployed Medusa application:
 1. Click on the card of the Medusa application in server mode.
 2. Click on the Deployments tab.
 3. Click on the View Logs button.
+
+### Set Host
+
+If you encounter issues with the Medusa application, try setting a `HOST` environment variable to `0.0.0.0`:
+
+```bash
+HOST=0.0.0.0
+```
+
+Learn more in the [Railway Documentation](https://docs.railway.com/guides/public-networking).
 
 ---
 

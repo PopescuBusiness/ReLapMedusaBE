@@ -1,12 +1,7 @@
 import * as React from "react"
+import { ExampleRegistry as ExampleRegistryType } from "types"
 
-type ExampleType = {
-  name: string
-  component: React.LazyExoticComponent<() => React.JSX.Element>
-  file: string
-}
-
-export const ExampleRegistry: Record<string, ExampleType> = {
+export const ExampleRegistry: ExampleRegistryType = {
   "alert-demo": {
     name: "alert-demo",
     component: React.lazy(async () => import("@/examples/alert-demo")),
@@ -193,9 +188,29 @@ export const ExampleRegistry: Record<string, ExampleType> = {
     file: "src/examples/icon-badge-base.tsx",
   },
   "icon-badge-large": {
-    name: "icon-badge-small",
+    name: "icon-badge-large",
     component: React.lazy(async () => import("@/examples/icon-badge-large")),
     file: "src/examples/icon-badge-large.tsx",
+  },
+  "inline-tip-demo": {
+    name: "inline-tip-demo",
+    component: React.lazy(async () => import("@/examples/inline-tip-demo")),
+    file: "src/examples/inline-tip-demo.tsx",
+  },
+  "inline-tip-warning": {
+    name: "inline-tip-warning",
+    component: React.lazy(async () => import("@/examples/inline-tip-warning")),
+    file: "src/examples/inline-tip-warning.tsx",
+  },
+  "inline-tip-error": {
+    name: "inline-tip-error",
+    component: React.lazy(async () => import("@/examples/inline-tip-error")),
+    file: "src/examples/inline-tip-error.tsx",
+  },
+  "inline-tip-success": {
+    name: "inline-tip-success",
+    component: React.lazy(async () => import("@/examples/inline-tip-success")),
+    file: "src/examples/inline-tip-success.tsx",
   },
   "button-demo": {
     name: "button-demo",

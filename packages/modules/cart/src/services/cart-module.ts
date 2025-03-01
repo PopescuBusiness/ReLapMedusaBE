@@ -24,6 +24,7 @@ import {
 import {
   Address,
   Cart,
+  CreditLine,
   LineItem,
   LineItemAdjustment,
   LineItemTaxLine,
@@ -54,6 +55,7 @@ type InjectedDependencies = {
 
 const generateMethodForModels = {
   Cart,
+  CreditLine,
   Address,
   LineItem,
   LineItemAdjustment,
@@ -66,6 +68,7 @@ const generateMethodForModels = {
 export default class CartModuleService
   extends ModulesSdkUtils.MedusaService<{
     Cart: { dto: CartTypes.CartDTO }
+    CreditLine: { dto: CartTypes.CartCreditLineDTO }
     Address: { dto: CartTypes.CartAddressDTO }
     LineItem: { dto: CartTypes.CartLineItemDTO }
     LineItemAdjustment: { dto: CartTypes.LineItemAdjustmentDTO }
@@ -170,6 +173,7 @@ export default class CartModuleService
 
     const requiredFieldsForTotals = [
       "items",
+      "credit_lines",
       "items.tax_lines",
       "items.adjustments",
       "shipping_methods",
@@ -1079,10 +1083,9 @@ export default class CartModuleService
       )
     }
 
-    const result = await this.lineItemTaxLineService_.upsert(
-      taxLines,
-      sharedContext
-    )
+    const result = taxLines.length
+      ? await this.lineItemTaxLineService_.upsert(taxLines, sharedContext)
+      : []
 
     return await this.baseRepository_.serialize<CartTypes.LineItemTaxLineDTO[]>(
       result,
@@ -1197,10 +1200,12 @@ export default class CartModuleService
       )
     }
 
-    const result = await this.shippingMethodTaxLineService_.upsert(
-      taxLines as UpdateShippingMethodTaxLineDTO[],
-      sharedContext
-    )
+    const result = taxLines.length
+      ? await this.shippingMethodTaxLineService_.upsert(
+          taxLines as UpdateShippingMethodTaxLineDTO[],
+          sharedContext
+        )
+      : []
 
     return await this.baseRepository_.serialize<
       CartTypes.ShippingMethodTaxLineDTO[]

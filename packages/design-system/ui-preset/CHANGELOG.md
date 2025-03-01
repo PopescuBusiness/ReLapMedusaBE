@@ -1,5 +1,9 @@
 # @medusajs/ui-preset
 
+## 2.5.1
+
+## 2.5.0
+
 ## 2.4.0
 
 ### Minor Changes

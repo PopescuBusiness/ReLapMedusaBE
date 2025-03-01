@@ -56,6 +56,9 @@ export type PaymentActions =
   | "authorized"
   | "captured"
   | "failed"
+  | "pending"
+  | "requires_more"
+  | "canceled"
   | "not_supported"
 
 /**
@@ -73,6 +76,11 @@ export type PaymentProviderContext = {
    * The customer information from Medusa.
    */
   customer?: PaymentCustomerDTO
+
+  /**
+   * Idempotency key for the request, if the payment provider supports it. It will be ignored otherwise.
+   */
+  idempotency_key?: string
 }
 
 export type PaymentProviderInput = {
@@ -87,12 +95,10 @@ export type PaymentProviderInput = {
 }
 
 /**
- * @interface
- *
  * The data used initiate a payment in a provider when a payment
  * session is created.
  */
-export type InitiatePaymentInput = PaymentProviderInput & {
+export interface InitiatePaymentInput extends PaymentProviderInput {
   /**
    * The amount to be authorized.
    */
@@ -105,11 +111,9 @@ export type InitiatePaymentInput = PaymentProviderInput & {
 }
 
 /**
- * @interface
- *
  * The attributes to update a payment related to a payment session in a provider.
  */
-export type UpdatePaymentInput = PaymentProviderInput & {
+export interface UpdatePaymentInput extends PaymentProviderInput {
   /**
    * The payment session's amount.
    */
@@ -122,32 +126,24 @@ export type UpdatePaymentInput = PaymentProviderInput & {
 }
 
 /**
- * @interface
- * 
  * The data to delete a payment.
  */
-export type DeletePaymentInput = PaymentProviderInput
+export interface DeletePaymentInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to authorize a payment.
  */
-export type AuthorizePaymentInput = PaymentProviderInput
+export interface AuthorizePaymentInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to capture a payment.
  */
-export type CapturePaymentInput = PaymentProviderInput
+export interface CapturePaymentInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to refund a payment.
  */
-export type RefundPaymentInput = PaymentProviderInput & {
+export interface RefundPaymentInput extends PaymentProviderInput {
   /**
    * The amount to refund.
    */
@@ -155,25 +151,19 @@ export type RefundPaymentInput = PaymentProviderInput & {
 }
 
 /**
- * @interface
- * 
  * The data to retrieve a payment.
  */
-export type RetrievePaymentInput = PaymentProviderInput
+export interface RetrievePaymentInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to cancel a payment.
  */
-export type CancelPaymentInput = PaymentProviderInput
+export interface CancelPaymentInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to create an account holder.
  */
-export type CreateAccountHolderInput = PaymentProviderInput & {
+export interface CreateAccountHolderInput extends PaymentProviderInput {
   /**
    * The context of creating the account holder.
    */
@@ -185,12 +175,22 @@ export type CreateAccountHolderInput = PaymentProviderInput & {
   }
 }
 
+export interface UpdateAccountHolderInput extends PaymentProviderInput {
+  /**
+   * The context of updating the account holder.
+   */
+  context: PaymentProviderContext & {
+    /**
+     * The account holder's details.
+     */
+    account_holder: PaymentAccountHolderDTO
+  }
+}
+
 /**
- * @interface
- * 
  * The data to delete an account holder.
  */
-export type DeleteAccountHolderInput = PaymentProviderInput & {
+export interface DeleteAccountHolderInput extends Omit<PaymentProviderInput, "context"> {
   /**
    * The context of deleting the account holder.
    */
@@ -203,25 +203,19 @@ export type DeleteAccountHolderInput = PaymentProviderInput & {
 }
 
 /**
- * @interface
- * 
  * The data to list payment methods.
  */
-export type ListPaymentMethodsInput = PaymentProviderInput
+export interface ListPaymentMethodsInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to save a payment method.
  */
-export type SavePaymentMethodInput = PaymentProviderInput
+export interface SavePaymentMethodInput extends PaymentProviderInput {}
 
 /**
- * @interface
- * 
  * The data to get the payment status.
  */
-export type GetPaymentStatusInput = PaymentProviderInput
+export interface GetPaymentStatusInput extends PaymentProviderInput {}
 
 /**
  * @interface
@@ -236,11 +230,9 @@ export type PaymentProviderOutput = {
 }
 
 /**
- * @interface
- * 
  * The successful result of initiating a payment session using a third-party payment provider.
  */
-export type InitiatePaymentOutput = PaymentProviderOutput & {
+export interface InitiatePaymentOutput extends PaymentProviderOutput {
   /**
    * The ID of the payment session in the payment provider.
    */
@@ -248,11 +240,9 @@ export type InitiatePaymentOutput = PaymentProviderOutput & {
 }
 
 /**
- * @interface
- *
  * The successful result of authorizing a payment session using a payment provider.
  */
-export type AuthorizePaymentOutput = PaymentProviderOutput & {
+export interface AuthorizePaymentOutput extends PaymentProviderOutput {
   /**
    * The status of the payment, which will be stored in the payment session's `status` field.
    */
@@ -260,54 +250,40 @@ export type AuthorizePaymentOutput = PaymentProviderOutput & {
 }
 
 /**
- * @interface
- * 
  * The result of updating a payment.
  */
-export type UpdatePaymentOutput = PaymentProviderOutput
+export interface UpdatePaymentOutput extends PaymentProviderOutput {}
 
 /**
- * @interface
- * 
  * The result of deleting a payment.
  */
-export type DeletePaymentOutput = PaymentProviderOutput
+export interface DeletePaymentOutput extends PaymentProviderOutput {}
 
 /**
- * @interface
- * 
  * The result of capturing the payment.
  */
-export type CapturePaymentOutput = PaymentProviderOutput
+export interface CapturePaymentOutput extends PaymentProviderOutput {}
 
 /**
- * @interface
- * 
  * The result of refunding the payment.
  */
-export type RefundPaymentOutput = PaymentProviderOutput
+export interface RefundPaymentOutput extends PaymentProviderOutput {}
 
 /**
- * @interface
- * 
  * The result of retrieving the payment.
  */
-export type RetrievePaymentOutput = PaymentProviderOutput
+export interface RetrievePaymentOutput extends PaymentProviderOutput {}
 
 /**
- * @interface
- * 
  * The result of canceling the payment.
  */
-export type CancelPaymentOutput = PaymentProviderOutput
+export interface CancelPaymentOutput extends PaymentProviderOutput {}
 
 /**
- * @interface
- * 
  * The result of creating an account holder in the third-party payment provider. The `data`
  * property is stored as-is in Medusa's account holder's `data` property.
  */
-export type CreateAccountHolderOutput = PaymentProviderOutput & {
+export interface CreateAccountHolderOutput extends PaymentProviderOutput {
   /**
    * The ID of the account holder in the payment provider.
    * This is stored in Medusa's account holder in the `external_id` property.
@@ -315,21 +291,31 @@ export type CreateAccountHolderOutput = PaymentProviderOutput & {
   id: string
 }
 
-export type DeleteAccountHolderOutput = PaymentProviderOutput
+/**
+ * The result of updating an account holder in the third-party payment provider. The `data`
+ * property is stored as-is in Medusa's account holder's `data` property.
+ */
+export interface UpdateAccountHolderOutput extends PaymentProviderOutput {}
 
-export type ListPaymentMethodsOutput = (PaymentProviderOutput & {
+/**
+ * The result of deleting an account holder in the third-party payment provider.
+ */
+export interface DeleteAccountHolderOutput extends PaymentProviderOutput {}
+
+/**
+ * The result of listing payment methods for an account holder in the third-party payment provider.
+ */
+export interface ListPaymentMethodsOutput extends Array<PaymentProviderOutput & {
   /**
    * The ID of the payment method in the payment provider.
    */
   id: string
-})[]
+}> {}
 
 /**
- * @interface
- * 
  * The result of saving a payment method.
  */
-export type SavePaymentMethodOutput = PaymentProviderOutput & {
+export interface SavePaymentMethodOutput extends PaymentProviderOutput {
   /**
    * The ID of the payment method in the payment provider.
    */
@@ -337,11 +323,9 @@ export type SavePaymentMethodOutput = PaymentProviderOutput & {
 }
 
 /**
- * @interface
- * 
  * The result of getting the payment status.
  */
-export type GetPaymentStatusOutput = PaymentProviderOutput & {
+export interface GetPaymentStatusOutput extends PaymentProviderOutput {
   /**
    * The status of the payment, which will be stored in the payment session's `status` field.
    */
@@ -408,44 +392,46 @@ export interface IPaymentProvider {
 
   /**
    * This method is used when creating an account holder in Medusa, allowing you to create
-   * the equivalent account in the third-party service. An account holder is useful to 
-   * later save payment methods, such as credit cards, for a customer in the 
+   * the equivalent account in the third-party service. An account holder is useful to
+   * later save payment methods, such as credit cards, for a customer in the
    * third-party payment provider using the {@link savePaymentMethod} method.
-   * 
+   *
    * The returned data will be stored in the account holder created in Medusa. For example,
    * the returned `id` property will be stored in the account holder's `external_id` property.
-   * 
+   *
    * Medusa creates an account holder when a payment session initialized for a registered customer.
-   * 
+   *
    * @param data - Input data including the details of the account holder to create.
    * @returns The result of creating the account holder. If an error occurs, throw it.
-   * 
+   *
+   * @version 2.5.0
+   *
    * @example
    * import { MedusaError } from "@medusajs/framework/utils"
-   * 
+   *
    * class MyPaymentProviderService extends AbstractPaymentProvider<
    *  Options
    * > {
    *  async createAccountHolder({ context, data }: CreateAccountHolderInput) {
    *   const { account_holder, customer } = context
-   * 
+   *
    *   if (account_holder?.data?.id) {
    *     return { id: account_holder.data.id as string }
    *   }
-   * 
+   *
    *   if (!customer) {
    *     throw new MedusaError(
    *       MedusaError.Types.INVALID_DATA,
    *       "Missing customer data."
    *     )
    *   }
-   * 
+   *
    *   // assuming you have a client that creates the account holder
    *   const providerAccountHolder = await this.client.createAccountHolder({
    *     email: customer.email,
    *    ...data
    *   })
-   * 
+   *
    *   return {
    *     id: providerAccountHolder.id,
    *     data: providerAccountHolder as unknown as Record<string, unknown>
@@ -457,15 +443,61 @@ export interface IPaymentProvider {
   ): Promise<CreateAccountHolderOutput>
 
   /**
-   * This method is used when an account holder is deleted in Medusa, allowing you
-   * to also delete the equivalent account holder in the third-party service.
-   * 
-   * @param data - Input data including the details of the account holder to delete.
-   * @returns The result of deleting the account holder. If an error occurs, throw it.
-   * 
+   * This method is used when updating an account holder in Medusa, allowing you to update
+   * the equivalent account in the third-party service.
+   *
+   * The returned data will be stored in the account holder created in Medusa. For example,
+   * the returned `id` property will be stored in the account holder's `external_id` property.
+   *
+   * @param data - Input data including the details of the account holder to update.
+   * @returns The result of updating the account holder. If an error occurs, throw it.
+   *
+   * @version 2.5.1
+   *
    * @example
    * import { MedusaError } from "@medusajs/framework/utils"
-   * 
+   *
+   * class MyPaymentProviderService extends AbstractPaymentProvider<
+   *  Options
+   * > {
+   *  async updateAccountHolder({ context, data }: UpdateAccountHolderInput) {
+   *   const { account_holder, customer } = context
+   *
+   *   if (!account_holder?.data?.id) {
+   *     throw new MedusaError(
+   *       MedusaError.Types.INVALID_DATA,
+   *       "Missing account holder ID."
+   *     )
+   *   }
+   *
+   *   // assuming you have a client that updates the account holder
+   *   const providerAccountHolder = await this.client.updateAccountHolder({
+   *     id: account_holder.data.id,
+   *    ...data
+   *   })
+   *
+   *   return {
+   *     id: providerAccountHolder.id,
+   *     data: providerAccountHolder as unknown as Record<string, unknown>
+   *   }
+   * }
+   */
+  updateAccountHolder?(
+    data: UpdateAccountHolderInput
+  ): Promise<UpdateAccountHolderOutput>
+
+  /**
+   * This method is used when an account holder is deleted in Medusa, allowing you
+   * to also delete the equivalent account holder in the third-party service.
+   *
+   * @param data - Input data including the details of the account holder to delete.
+   * @returns The result of deleting the account holder. If an error occurs, throw it.
+   *
+   * @version 2.5.0
+   *
+   * @example
+   * import { MedusaError } from "@medusajs/framework/utils"
+   *
    * class MyPaymentProviderService extends AbstractPaymentProvider<
    *  Options
    * > {
@@ -478,12 +510,12 @@ export interface IPaymentProvider {
    *         "Missing account holder ID."
    *       )
    *     }
-   * 
+   *
    *     // assuming you have a client that deletes the account holder
    *     await this.client.deleteAccountHolder({
    *       id: accountHolderId
    *     })
-   * 
+   *
    *     return {}
    *   }
    * }
@@ -496,32 +528,34 @@ export interface IPaymentProvider {
    * This method is used to retrieve the list of saved payment methods for an account holder
    * in the third-party payment provider. A payment provider that supports saving payment methods
    * must implement this method.
-   * 
+   *
+   * @version 2.5.0
+   *
    * @param data - Input data including the details of the account holder to list payment methods for.
    * @returns The list of payment methods saved for the account holder. If an error occurs, throw it.
-   * 
+   *
    * @example
    * import { MedusaError } from "@medusajs/framework/utils"
-   * 
+   *
    * class MyPaymentProviderService extends AbstractPaymentProvider<
    *   Options
    * > {
    *   async listPaymentMethods({ context }: ListPaymentMethodsInput) {
    *     const { account_holder } = context
    *     const accountHolderId = account_holder?.data?.id as string | undefined
-   * 
+   *
    *     if (!accountHolderId) {
    *       throw new MedusaError(
    *         MedusaError.Types.INVALID_DATA,
    *         "Missing account holder ID."
    *       )
    *     }
-   * 
+   *
    *    // assuming you have a client that lists the payment methods
    *    const paymentMethods = await this.client.listPaymentMethods({
    *      customer_id: accountHolderId
    *    })
-   * 
+   *
    *    return paymentMethods.map((pm) => ({
    *      id: pm.id,
    *      data: pm as unknown as Record<string, unknown>
@@ -537,34 +571,36 @@ export interface IPaymentProvider {
    * This method is used to save a customer's payment method, such as a credit card, in the
    * third-party payment provider. A payment provider that supports saving payment methods
    * must implement this method.
-   * 
+   *
+   * @version 2.5.0
+   *
    * @param data - The details of the payment method to save.
    * @returns The result of saving the payment method. If an error occurs, throw it.
-   * 
+   *
    * @example
    * import { MedusaError } from "@medusajs/framework/utils"
-   * 
+   *
    * class MyPaymentProviderService extends AbstractPaymentProvider<
    *   Options
    * > {
-   *   async savePaymentMethod({ context, data }: SavePaymentMethodInput) {   * 
+   *   async savePaymentMethod({ context, data }: SavePaymentMethodInput) {   *
    *     const accountHolderId = context?.account_holder?.data?.id as
    *       | string
    *       | undefined
-   *     
+   *
    *     if (!accountHolderId) {
    *       throw new MedusaError(
    *         MedusaError.Types.INVALID_DATA,
    *         "Missing account holder ID."
    *       )
    *     }
-   * 
+   *
    *    // assuming you have a client that saves the payment method
    *    const paymentMethod = await this.client.savePaymentMethod({
    *      customer_id: accountHolderId,
    *      ...data
    *    })
-   * 
+   *
    *   return {
    *     id: paymentMethod.id,
    *     data: paymentMethod as unknown as Record<string, unknown>

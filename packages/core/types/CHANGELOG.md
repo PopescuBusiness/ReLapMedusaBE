@@ -1,5 +1,37 @@
 # @medusajs/types
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11348](https://github.com/medusajs/medusa/pull/11348) [`22276648ad0aef12206464b555efdce97e316bb4`](https://github.com/medusajs/medusa/commit/22276648ad0aef12206464b555efdce97e316bb4) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - feat: query.index
+
+- [#11399](https://github.com/medusajs/medusa/pull/11399) [`d1cbe4c61ed99bbeccf1be49721e0aa7b74edd71`](https://github.com/medusajs/medusa/commit/d1cbe4c61ed99bbeccf1be49721e0aa7b74edd71) Thanks [@thetutlage](https://github.com/thetutlage)! - fix: relationships to accept ids
+
+- [#11441](https://github.com/medusajs/medusa/pull/11441) [`1a3843a92a6db83b9249e9c0aece7b3d13a600a9`](https://github.com/medusajs/medusa/commit/1a3843a92a6db83b9249e9c0aece7b3d13a600a9) Thanks [@thetutlage](https://github.com/thetutlage)! - fix: listVariantsList types
+
+- [#11514](https://github.com/medusajs/medusa/pull/11514) [`3b4997840e624ef8da1a75744b4bfb5c5a371f7c`](https://github.com/medusajs/medusa/commit/3b4997840e624ef8da1a75744b4bfb5c5a371f7c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(medusa,js-sdk,types): Add basic draft order operations to js-sdk
+
+- [#11518](https://github.com/medusajs/medusa/pull/11518) [`0c957350a6688c78572361b51c1f16a452a31aed`](https://github.com/medusajs/medusa/commit/0c957350a6688c78572361b51c1f16a452a31aed) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - fix(order): order edit flows with calculated taxes
+
+- [#11544](https://github.com/medusajs/medusa/pull/11544) [`065df75e7d5b90a4de43873d8c08e1aab65e3fd7`](https://github.com/medusajs/medusa/commit/065df75e7d5b90a4de43873d8c08e1aab65e3fd7) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(): handle empty q filters - allow to query deleted records from graph API - staled_at fixes
+
+- [#11414](https://github.com/medusajs/medusa/pull/11414) [`47edd01deec79b394552cea349f1e41b7b88723b`](https://github.com/medusajs/medusa/commit/47edd01deec79b394552cea349f1e41b7b88723b) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(admin-vite-plugin,admin-bundler,ui,icons,dashboard,framework,types): Update Vite dependencies
+
+## 2.5.0
+
+### Patch Changes
+
+- [#11300](https://github.com/medusajs/medusa/pull/11300) [`6db96c80d05730a9188937599baba2602f4e2a92`](https://github.com/medusajs/medusa/commit/6db96c80d05730a9188937599baba2602f4e2a92) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(ui,types): Add Metadata form for collection
+
+- [#11304](https://github.com/medusajs/medusa/pull/11304) [`9f1a3b2a4214ef23a22972e6d28c5f43f87da353`](https://github.com/medusajs/medusa/commit/9f1a3b2a4214ef23a22972e6d28c5f43f87da353) Thanks [@shahednasser](https://github.com/shahednasser)! - fix(medusa, types): fix promotion HTTP types in cart
+
+- [#11263](https://github.com/medusajs/medusa/pull/11263) [`65fae943c9d919f658c8660e5b46626c1b302e31`](https://github.com/medusajs/medusa/commit/65fae943c9d919f658c8660e5b46626c1b302e31) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - feat(orchestration): hydrate resultset
+
+- [#11285](https://github.com/medusajs/medusa/pull/11285) [`f07af7b93c86673e730dc4e5eba8df2572013f9f`](https://github.com/medusajs/medusa/commit/f07af7b93c86673e730dc4e5eba8df2572013f9f) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(dashboard,core-flows,types,medusa): Allow editing Order metadata
+
+- [#11295](https://github.com/medusajs/medusa/pull/11295) [`3c51709daf07dcdd5563fa08fec2446a42cc8058`](https://github.com/medusajs/medusa/commit/3c51709daf07dcdd5563fa08fec2446a42cc8058) Thanks [@thetutlage](https://github.com/thetutlage)! - feat: map container types for core services to interface
+
 ## 2.4.0
 
 ### Minor Changes

@@ -27,6 +27,7 @@ import { HasOneWithForeignKey } from "../../relations/has-one-fk"
 import { ManyToMany as DmlManyToMany } from "../../relations/many-to-many"
 import { applyEntityIndexes } from "../mikro-orm/apply-indexes"
 import { parseEntityName } from "./parse-entity-name"
+import { getForeignKey } from "./relationship-helpers"
 
 type Context = {
   MANY_TO_MANY_TRACKED_RELATIONS: Record<string, boolean>
@@ -183,10 +184,7 @@ export function defineHasOneWithFKRelationship(
   { relatedModelName }: { relatedModelName: string },
   cascades: EntityCascades<string[], string[]>
 ) {
-  const foreignKeyName =
-    relationship.options.foreignKeyName ??
-    camelToSnakeCase(`${relationship.name}Id`)
-
+  const foreignKeyName = getForeignKey(relationship)
   const shouldRemoveRelated = !!cascades.delete?.includes(relationship.name)
 
   let mappedBy: string | undefined = camelToSnakeCase(MikroORMEntity.name)
@@ -285,14 +283,17 @@ export function defineHasManyRelationship(
 ) {
   const shouldRemoveRelated = !!cascades.delete?.includes(relationship.name)
 
-  OneToMany({
+  const options: Parameters<typeof OneToMany>[0] = {
     entity: relatedModelName,
     orphanRemoval: true,
     mappedBy: relationship.mappedBy || camelToSnakeCase(MikroORMEntity.name),
-    cascade: shouldRemoveRelated
-      ? (["persist", "soft-remove"] as any)
-      : undefined,
-  })(MikroORMEntity.prototype, relationship.name)
+  }
+
+  if (shouldRemoveRelated) {
+    options.cascade = ["persist", "soft-remove"] as any
+  }
+
+  OneToMany(options)(MikroORMEntity.prototype, relationship.name)
 }
 
 /**
@@ -428,9 +429,7 @@ export function defineBelongsToRelationship(
     HasMany.isHasMany(otherSideRelation) ||
     DmlManyToMany.isManyToMany(otherSideRelation)
   ) {
-    const foreignKeyName =
-      relationship.options.foreignKeyName ??
-      camelToSnakeCase(`${relationship.name}Id`)
+    const foreignKeyName = getForeignKey(relationship)
     const detachCascade =
       !!relationship.mappedBy &&
       relationCascades.detach?.includes(relationship.mappedBy)
@@ -491,9 +490,7 @@ export function defineBelongsToRelationship(
     HasOne.isHasOne(otherSideRelation) ||
     HasOneWithForeignKey.isHasOneWithForeignKey(otherSideRelation)
   ) {
-    const foreignKeyName =
-      relationship.options.foreignKeyName ??
-      camelToSnakeCase(`${relationship.name}Id`)
+    const foreignKeyName = getForeignKey(relationship)
     Property({
       columnType: "text",
       type: "string",

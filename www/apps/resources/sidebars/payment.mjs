@@ -45,6 +45,11 @@ export const paymentSidebar = [
           },
           {
             type: "link",
+            path: "/commerce-modules/payment/account-holder",
+            title: "Account Holder",
+          },
+          {
+            type: "link",
             path: "/commerce-modules/payment/webhook-events",
             title: "Webhook Events",
           },
@@ -96,8 +101,8 @@ export const paymentSidebar = [
       },
       {
         type: "category",
-        title: "User Guides",
-        autogenerate_tags: "userGuides+payment",
+        title: "Admin User Guides",
+        autogenerate_tags: "userGuide+payment",
         initialOpen: false,
         autogenerate_as_ref: true,
         description:

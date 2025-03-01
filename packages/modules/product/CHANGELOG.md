@@ -1,5 +1,17 @@
 # @medusajs/product
 
+## 2.5.1
+
+### Patch Changes
+
+- [#11544](https://github.com/medusajs/medusa/pull/11544) [`065df75e7d5b90a4de43873d8c08e1aab65e3fd7`](https://github.com/medusajs/medusa/commit/065df75e7d5b90a4de43873d8c08e1aab65e3fd7) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(): handle empty q filters - allow to query deleted records from graph API - staled_at fixes
+
+## 2.5.0
+
+### Patch Changes
+
+- [#11216](https://github.com/medusajs/medusa/pull/11216) [`016e332e9b98f316cded6eb999927fc942ce56c5`](https://github.com/medusajs/medusa/commit/016e332e9b98f316cded6eb999927fc942ce56c5) Thanks [@thetutlage](https://github.com/thetutlage)! - feat: make AbstractModuleService create method type-safe
+
 ## 2.4.0
 
 ### Minor Changes
